@@ -1,0 +1,38 @@
+@import '../../../../global.css';
+.container {
+  display: flex;
+  position: absolute;
+  right: 0;
+  flex-direction: column;
+  background-color: var(--grayF4);
+  z-index: 2;
+}
+.btnChoosen {
+  position: relative;
+  width: 100%;
+  padding: 19px 36px 19px 15px;
+  text-align: left;
+  min-width: 370px;
+}
+.btnChoosen:not(:last-child) {
+  border-bottom: 1px solid var(--grayDE);
+}
+.btnChoosen:first-child::after {
+  content: '';
+  position: absolute;
+  right: 17px;
+  top: 16px;
+  width: 14px;
+  height: 14px;
+  transform: rotate(-225deg);
+  border: 2px solid var(--redB7);
+  border-bottom: none;
+  border-left: none;
+  transition-property: transform, top;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+.btnActive::after {
+  top: 20px !important;
+  transform: rotate(-45deg) !important;
+}

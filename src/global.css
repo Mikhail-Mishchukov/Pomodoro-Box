@@ -1,0 +1,114 @@
+@import-normalize;
+
+@font-face {
+  font-family: 'SFUI';
+  font-style: normal;
+  font-weight: 200;
+  src: local('SF UI Display Ultralight'),
+    url('./Assets/fonts/sfui-ultralight.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SFUI';
+  font-style: normal;
+  font-weight: 300;
+  src: local('SF UI Display Light'),
+    url('./Assets/fonts/sfui-light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SFUI';
+  font-style: normal;
+  font-weight: 400;
+  src: local('SF UI Display Regular'),
+    url('./Assets/fonts/sfui-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SFUI';
+  font-style: normal;
+  font-weight: 500;
+  src: local('SF UI Display Medium'),
+    url('./Assets/fonts/sfui-medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SFUI';
+  font-style: normal;
+  font-weight: 700;
+  src: local('SF UI Display Bold'),
+    url('./Assets/fonts/sfui-bold.woff') format('woff');
+}
+:root {
+  --black: #333333;
+  --white: #ffffff;
+  --gray99: #999999;
+  --grayF4: #f4f4f4;
+  --green: #a8b64f;
+  --grayC4: #c4c4c4;
+  --red: #dc3e22;
+  --peach: #ea8a79;
+  --orange: #ffdda9;
+  --violet: #dfdcfe;
+  --blue: #c5f1ff;
+  --dark-red: #9f200c;
+  --grayE4: #e4e4e4;
+  --grayDE: #dedede;
+  --redB7: #b7280f;
+  --orangeFF: #ffae35;
+  --violet9C: #9c97d7;
+  --blue7F: #7fc2d7;
+  --green89: #899441;
+  --redEE: #ee735d;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'SFUI', 'sans-serif';
+  font-weight: 400;
+}
+* {
+  color: var(--black);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+h1,
+h2,
+h3,
+h4,
+h6,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+.recharts-cartesian-grid-horizontal line:last-child {
+  display: none;
+}
+.recharts-cartesian-grid-horizontal line:nth-child(5) {
+  display: none;
+}

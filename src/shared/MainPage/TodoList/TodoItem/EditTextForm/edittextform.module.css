@@ -1,0 +1,33 @@
+@import '../../../../../global.css';
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input {
+  max-width: 370px;
+  border: none;
+  background-color: var(--grayF4);
+  padding: 19px 15px;
+  margin-bottom: 25px;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 17px;
+}
+.btnAccept {
+  padding: 19px 50px;
+  font-size: 16px;
+  line-height: 17px;
+  margin-bottom: 10px;
+}
+.btnCancel {
+  border-bottom: 1px solid var(--black);
+}
+.errorMessage {
+  color: var(--red);
+  position: absolute;
+  top: 80px;
+}
+.title {
+  margin-bottom: 20px;
+}

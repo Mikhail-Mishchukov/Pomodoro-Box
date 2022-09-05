@@ -1,0 +1,117 @@
+@import '../../../global.css';
+.container {
+  padding-top: 88px;
+}
+.header {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.infoContainer {
+  display: grid;
+  grid-template-columns: 1fr 3.2fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  grid-template-areas: 'dayInfo chart' 'counter chart';
+}
+.dayOfWeek {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.dayOfWeekContainer {
+  padding: 25px;
+  background-color: var(--grayF4);
+  grid-area: dayInfo;
+  min-height: 260px;
+}
+.counterTomato {
+  position: relative;
+  background-color: var(--grayF4);
+  grid-area: counter;
+  min-height: 179px;
+}
+.plugCounter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--grayF4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.imgCounterTomato {
+  padding: 23px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.imgCounter {
+  font-weight: 700;
+  margin-left: 17px;
+}
+.discribeCounter {
+  display: flex;
+  background-color: var(--red);
+  padding: 8px 0;
+  justify-content: center;
+  font-weight: 700;
+}
+.chartContainer {
+  width: 100%;
+  height: 100%;
+  grid-area: chart;
+  background-color: var(--grayF4);
+}
+.infoCardContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+.infoCard {
+  position: relative;
+  padding: 25px;
+  background-repeat: no-repeat;
+  background-position: 261px 35px;
+  background-color: var(--grayF4);
+}
+.infoCard path {
+  stroke: var(--grayC4);
+}
+.cardTitle {
+  display: block;
+  margin-bottom: 20px;
+}
+.cardIcon {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  z-index: 0;
+}
+.infoCardActive .infoCardFocus {
+  background-color: var(--orange);
+}
+.infoCardActive .infoCardFocus path {
+  stroke: var(--orangeFF);
+}
+.infoCardActive .infoCardPause {
+  background-color: var(--violet);
+}
+.infoCardActive .infoCardPause path {
+  stroke: var(--violet9C);
+}
+.infoCardActive .infoCardStops {
+  background-color: var(--blue);
+}
+.infoCardActive .infoCardStops path {
+  stroke: var(--blue7F);
+}
+.workTimeInfo {
+  font-weight: 700;
+}
+.cardData {
+  position: relative;
+  z-index: 1;
+}

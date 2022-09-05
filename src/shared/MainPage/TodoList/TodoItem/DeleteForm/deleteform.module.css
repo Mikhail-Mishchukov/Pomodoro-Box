@@ -1,0 +1,18 @@
+@import '../../../../../global.css';
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  margin-bottom: 10px;
+}
+.btnDelete {
+  padding: 19px 50px;
+  font-size: 16px;
+  line-height: 17px;
+  margin-bottom: 10px;
+}
+.btnCancel {
+  border-bottom: 1px solid var(--black);
+}
