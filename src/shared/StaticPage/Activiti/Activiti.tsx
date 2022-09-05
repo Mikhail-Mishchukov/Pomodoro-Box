@@ -88,8 +88,8 @@ export function Activiti() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
-              margin={{ top: 45, right: 0, bottom: 0, left: 0 }} //отступы вокруг чарта
-              barCategoryGap="10%" //расстаяние между колонками
+              margin={{ top: 45, right: 0, bottom: 0, left: 0 }}
+              barCategoryGap="10%"
             >
               <svg>
                 <rect fill="#ECECEC" height="51" width="100%" y="437" x="0" />
@@ -103,7 +103,7 @@ export function Activiti() {
                 axisLine={false}
                 tickLine={false}
                 height={35}
-                padding={{ left: 40, right: 20 }} //Сдвиг графика от левого края
+                padding={{ left: 40, right: 20 }}
                 fontSize={20}
                 tick={(e) => {
                   const {
@@ -120,13 +120,11 @@ export function Activiti() {
                 }}
               />
               <YAxis
-                orientation={'right'} //Отображение справа
-                //tickCount={4} //Количество тиков
-                axisLine={false} // Линия у оси
-                width={100} // хуй занет
-                tickLine={false} // Нет черточки у значений
-                tickSize={0} // Делаем этой черточки длину 0
-                // domain={['dataMin + 15', 'dataMax']}
+                orientation={'right'}
+                axisLine={false}
+                width={100}
+                tickLine={false}
+                tickSize={0}
                 tickFormatter={(value) => {
                   const m = value % 60;
                   const h = Math.floor(value / 60);
@@ -134,13 +132,7 @@ export function Activiti() {
                   return `${hoursStr} ${m} мин`;
                 }}
                 tick={{ fontSize: 12, fill: '#333333', fontWeight: 400 }}
-                // tick={(e) => {
-                //   console.log(e);
-
-                //   return <Text {...e}>{1}</Text>;
-                // }}
-                tickMargin={32} // Отступ от графика
-                // ticks={[25, 50, 75, 100]}
+                tickMargin={32}
                 ticks={getYTicks(data)}
               />
 
