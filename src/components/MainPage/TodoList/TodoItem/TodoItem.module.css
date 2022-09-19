@@ -1,0 +1,72 @@
+@import '../../../../global.css';
+.item {
+  max-width: 370px;
+  display: grid;
+  padding: 15px 0;
+  grid-template-columns: 1fr 5fr 1fr;
+  border-bottom: 1px solid var(--grayE4);
+  align-items: center;
+  cursor: pointer;
+}
+.item:first-child {
+  border-top: 1px solid var(--grayE4);
+}
+.counter {
+  position: relative;
+  padding-left: 9px;
+}
+.counter::after {
+  content: '';
+  top: -5px;
+  left: 0;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--grayC4);
+  border-radius: 50%;
+}
+.dropdownContainer {
+  justify-self: end;
+  position: relative;
+}
+.dropdownList {
+  position: absolute;
+  border: 1px solid var(--grayC4);
+  top: 30px;
+  transform: translateX(-40%);
+  background-color: white;
+  z-index: 2;
+  padding: 8px 0;
+}
+.dropdownList::before {
+  position: absolute;
+  content: '';
+  top: -6px;
+  left: 45%;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background-color: white;
+  border: 1px solid var(--grayC4);
+  border-right: none;
+  border-bottom: none;
+  z-index: 3;
+}
+.dropdownBtn {
+  width: 100%;
+  display: flex;
+  padding: 10px 14px 9px 16px;
+  transition: background-color 0.1s ease-in-out;
+}
+.dropdownBtn:hover {
+  background-color: var(--grayF4);
+}
+.dropdownBtn:disabled {
+  cursor: auto;
+  background-color: transparent;
+}
+
+.dropdownBtn:disabled > div > svg > path {
+  fill: var(--grayC4) !important;
+  background-color: red;
+}

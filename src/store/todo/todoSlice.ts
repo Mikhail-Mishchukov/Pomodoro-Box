@@ -3,115 +3,193 @@ import { nanoid } from 'nanoid';
 
 export interface ITodoItem {
   id: string;
-  text: string;
+  name: string;
+  numberOfTask: number;
   allTomato: number;
   currentTomato: number;
-  currentTimer: number;
   countBreak: number;
+  setTimeForTomato: number;
+  setTimeForBreak: number;
+  setTimeForBigBreak: number;
+  currentTimeForTomato: number;
+  currentTimeForBreak: number;
+  willDelete: boolean;
 }
 
 type TodoState = {
   list: ITodoItem[];
+  allTime: number;
+  isActiveTimer: boolean;
 };
 
 const initialState: TodoState = {
   list: [],
+  allTime: 0,
+  isActiveTimer: false,
 };
 
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    addTodo(state, action: PayloadAction<string>) {
-      state.list.push({
+    createTodo(state, action: PayloadAction<string>) {
+      const newTodo = {
         id: nanoid(),
-        text: action.payload,
+        name: action.payload,
+        numberOfTask: state.list.length + 1,
         allTomato: 1,
         currentTomato: 1,
-        currentTimer: 1500,
-        countBreak: 0,
-      });
+        countBreak: 1,
+        setTimeForTomato: 1500,
+        setTimeForBreak: 300,
+        setTimeForBigBreak: 900,
+        currentTimeForTomato: 1500,
+        currentTimeForBreak: 1,
+        willDelete: false,
+      };
+      state.list.push(newTodo);
+      state.allTime = state.allTime + newTodo.setTimeForTomato;
     },
-    incrementCount(state, action: PayloadAction<string>) {
+    incrementCountTomato(state, action: PayloadAction<string>) {
       const incrementTodo = state.list.find(
         (todo) => todo.id === action.payload
       );
       if (incrementTodo) {
         incrementTodo.allTomato++;
+        state.allTime = state.allTime + incrementTodo.setTimeForTomato;
       }
     },
-    decrementCount(state, action: PayloadAction<string>) {
-      const incrementTodo = state.list.find(
+    decrementCountTomato(state, action: PayloadAction<string>) {
+      const decrementTodo = state.list.find(
         (todo) => todo.id === action.payload
       );
-      if (incrementTodo) {
-        if (incrementTodo.allTomato >= 2) {
-          incrementTodo.allTomato--;
+      if (decrementTodo) {
+        if (
+          decrementTodo.allTomato >= 2 &&
+          decrementTodo.currentTomato !== decrementTodo.allTomato
+        ) {
+          decrementTodo.allTomato--;
+          state.allTime = state.allTime - decrementTodo.setTimeForTomato;
         }
       }
     },
-    updateTextTodo(state, action: PayloadAction<{ id: string; text: string }>) {
+    updateNameTodo(state, action: PayloadAction<{ id: string; name: string }>) {
       const editTodo = state.list.find((todo) => todo.id === action.payload.id);
-      if (editTodo?.text) {
-        editTodo.text = action.payload.text;
+      if (editTodo?.name) {
+        editTodo.name = action.payload.name;
+      }
+    },
+    setWillTodoDelete(state, action: PayloadAction<string>) {
+      const todo = state.list.find((todo) => todo.id === action.payload);
+      if (todo) {
+        todo.willDelete = true;
       }
     },
     deleteTodo(state, action: PayloadAction<string>) {
-      state.list = state.list.filter((todo) => todo.id !== action.payload);
-    },
-    addMinute(state, action: PayloadAction<string>) {
       const todo = state.list.find((todo) => todo.id === action.payload);
-      if (todo?.currentTimer || todo?.currentTimer === 0) {
-        todo.currentTimer = todo.currentTimer + 60;
+      if (todo) {
+        state.allTime =
+          state.allTime -
+          ((todo.allTomato - todo.currentTomato) * todo.setTimeForTomato +
+            todo.currentTimeForTomato);
+      }
+      state.list = state.list.filter((todo) => {
+        return todo.id !== action.payload;
+      });
+      for (let i = 0; i < state.list.length; i++) {
+        if (state.list[i].numberOfTask !== i + 1) {
+          state.list[i].numberOfTask = i + 1;
+        }
       }
     },
-    decreaseTimer(state, action: PayloadAction<string>) {
+    addMinuteForTask(state, action: PayloadAction<string>) {
       const todo = state.list.find((todo) => todo.id === action.payload);
-      if (todo?.currentTimer) {
-        todo.currentTimer = todo.currentTimer - 1;
+
+      if (todo) {
+        todo.currentTimeForTomato = todo.currentTimeForTomato + 60;
+        state.allTime = state.allTime + 60;
+      }
+    },
+    addMinuteForBreak(state, action: PayloadAction<string>) {
+      const todo = state.list.find((todo) => todo.id === action.payload);
+      if (todo?.currentTimeForBreak || todo?.currentTimeForBreak === 0) {
+        todo.currentTimeForBreak = todo.currentTimeForBreak + 60;
+      }
+    },
+    decreaseTimerTask(state, action: PayloadAction<string>) {
+      const todo = state.list.find((todo) => todo.id === action.payload);
+      if (todo?.currentTimeForTomato) {
+        todo.currentTimeForTomato = todo.currentTimeForTomato - 1;
+        state.allTime = state.allTime - 1;
       }
     },
     resetTimer(state, action: PayloadAction<string>) {
       const todo = state.list.find((todo) => todo.id === action.payload);
-      if (todo?.currentTimer || todo?.currentTimer === 0) {
-        todo.currentTimer = 1500;
-      }
-    },
-    doneTodo(state, action: PayloadAction<string>) {
-      const todo = state.list.find((todo) => todo.id === action.payload);
-      if (todo) {
-        if (todo.allTomato === 1) {
-          state.list = state.list.filter((todo) => todo.id !== action.payload);
-        } else {
-          todo.currentTimer = 1500;
-          todo.currentTomato++;
-          todo.allTomato--;
-        }
+      if (todo?.currentTimeForTomato || todo?.currentTimeForTomato === 0) {
+        state.allTime =
+          state.allTime - todo.currentTimeForTomato + todo.setTimeForTomato;
+        todo.currentTimeForTomato = todo.setTimeForTomato;
       }
     },
     setTimerBreak(state, action: PayloadAction<string>) {
       const todo = state.list.find((todo) => todo.id === action.payload);
       if (todo) {
-        todo.countBreak++;
+        state.allTime = state.allTime - todo.currentTimeForTomato;
+        todo.currentTimeForTomato = 0;
         if (todo.countBreak % 3 === 0) {
-          todo.currentTimer = 900;
+          todo.currentTimeForBreak = todo.setTimeForBigBreak;
         } else {
-          todo.currentTimer = 300;
+          todo.currentTimeForBreak = todo.setTimeForBreak;
         }
       }
+    },
+    decreaseTimerBreak(state, action: PayloadAction<string>) {
+      const todo = state.list.find((todo) => todo.id === action.payload);
+      if (todo?.currentTimeForBreak) {
+        todo.currentTimeForBreak = todo.currentTimeForBreak - 1;
+      }
+    },
+    doneTomato(state, action: PayloadAction<string>) {
+      const todo = state.list.find((todo) => todo.id === action.payload);
+      if (todo) {
+        todo.currentTomato++;
+        todo.countBreak++;
+        todo.currentTimeForTomato = todo.setTimeForTomato;
+      }
+    },
+    setCurrentTimeBreak(
+      state,
+      action: PayloadAction<{ id: string; time: number }>
+    ) {
+      const todo = state.list.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        todo.currentTimeForBreak = action.payload.time;
+      }
+    },
+    setActiveTask(state, action: PayloadAction<boolean>) {
+      state.isActiveTimer = action.payload;
     },
   },
 });
 export const {
-  addTodo,
-  incrementCount,
-  decrementCount,
-  updateTextTodo,
+  createTodo,
+  incrementCountTomato,
+  decrementCountTomato,
+  updateNameTodo,
+  setWillTodoDelete,
   deleteTodo,
-  addMinute,
-  decreaseTimer,
+  addMinuteForTask,
+  decreaseTimerTask,
   resetTimer,
-  doneTodo,
   setTimerBreak,
+  decreaseTimerBreak,
+  addMinuteForBreak,
+  doneTomato,
+  setCurrentTimeBreak,
+  setActiveTask,
+  //deleteCurrentTimeFromAllTime,
 } = todoSlice.actions;
 export const todoReducer = todoSlice.reducer;
+
+// Общее время задач нарисовать + анимация
+// Анимация в таймере мб анимация в деле ??

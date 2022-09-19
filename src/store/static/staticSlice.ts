@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
-import { getDayOfWeek } from '../../shared/utils/getDayOfWeek';
-import { getNumberOfWeek } from '../../shared/utils/getNumberOfWeek';
+import { getDayOfWeek } from '../../utils/getDayOfWeek';
+import { getNumberOfWeek } from '../../utils/getNumberOfWeek';
 
 export enum EBtnWeek {
   thisWeek = 'Эта неделя',
@@ -37,7 +37,7 @@ export interface IWeekInfo {
   [EWeek.friday]: IDayInfo;
   [EWeek.saturday]: IDayInfo;
   [EWeek.sunday]: IDayInfo;
-  numberOfDayofWeek: number;
+  numberOfDayOfWeek: number;
 }
 export interface IStaticInfo {
   prelastWeek: IWeekInfo;
@@ -108,7 +108,7 @@ const initialState: IStatic = {
         countStops: 0,
         pauseTime: 0,
       },
-      numberOfDayofWeek: 0,
+      numberOfDayOfWeek: 0,
     },
     lastWeek: {
       monday: {
@@ -153,7 +153,7 @@ const initialState: IStatic = {
         countStops: 0,
         pauseTime: 0,
       },
-      numberOfDayofWeek: 0,
+      numberOfDayOfWeek: 0,
     },
     thisWeek: {
       monday: {
@@ -198,7 +198,7 @@ const initialState: IStatic = {
         countStops: 1,
         pauseTime: 1805,
       },
-      numberOfDayofWeek: 0,
+      numberOfDayOfWeek: 0,
     },
   },
   numberOfDay: getDayOfWeek(new Date()),
@@ -210,9 +210,9 @@ const staticSlice = createSlice({
     setWeekStitisticInfo(state) {
       //const numberOfWeek = getNumberOfWeek();
       //Когда будет сохранение инфы, сделать обновление недель, пока что просто инициализируем недели в 0;
-      state.staticInfo.thisWeek.numberOfDayofWeek = getNumberOfWeek();
-      state.staticInfo.lastWeek.numberOfDayofWeek = getNumberOfWeek() - 1;
-      state.staticInfo.prelastWeek.numberOfDayofWeek = getNumberOfWeek() - 2;
+      state.staticInfo.thisWeek.numberOfDayOfWeek = getNumberOfWeek();
+      state.staticInfo.lastWeek.numberOfDayOfWeek = getNumberOfWeek() - 1;
+      state.staticInfo.prelastWeek.numberOfDayOfWeek = getNumberOfWeek() - 2;
     },
     setWeek(state, action: PayloadAction<string>) {
       const choosen = state.weekAray.find((item) => item.id === action.payload);

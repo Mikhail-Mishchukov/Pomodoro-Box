@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: 200;
   src: local('SF UI Display Ultralight'),
-    url('./Assets/fonts/sfui-ultralight.woff') format('woff');
+    url('./assets/fonts/sfui-ultralight.woff') format('woff');
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 300;
   src: local('SF UI Display Light'),
-    url('./Assets/fonts/sfui-light.woff') format('woff');
+    url('./assets/fonts/sfui-light.woff') format('woff');
 }
 
 @font-face {
@@ -21,7 +21,7 @@
   font-style: normal;
   font-weight: 400;
   src: local('SF UI Display Regular'),
-    url('./Assets/fonts/sfui-regular.woff') format('woff');
+    url('./assets/fonts/sfui-regular.woff') format('woff');
 }
 
 @font-face {
@@ -29,7 +29,7 @@
   font-style: normal;
   font-weight: 500;
   src: local('SF UI Display Medium'),
-    url('./Assets/fonts/sfui-medium.woff') format('woff');
+    url('./assets/fonts/sfui-medium.woff') format('woff');
 }
 
 @font-face {
@@ -37,7 +37,7 @@
   font-style: normal;
   font-weight: 700;
   src: local('SF UI Display Bold'),
-    url('./Assets/fonts/sfui-bold.woff') format('woff');
+    url('./assets/fonts/sfui-bold.woff') format('woff');
 }
 :root {
   --black: #333333;

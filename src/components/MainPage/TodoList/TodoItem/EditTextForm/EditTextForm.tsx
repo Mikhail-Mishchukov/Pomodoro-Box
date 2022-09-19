@@ -1,0 +1,85 @@
+import { FormEvent, useRef, useState } from 'react';
+import { useAppDispatch } from '../../../../../store/hooks';
+import { updateNameTodo } from '../../../../../store/todo/todoSlice';
+import { ActionBtn, EBtnType } from '../../../../common/ActionBtn';
+import { TextComponent } from '../../../../common/TextComponent';
+import { animated, useSpring } from 'react-spring';
+import styles from './EditTextForm.module.css';
+
+interface IEditTextFormProps {
+  onClose: () => void;
+  id: string;
+  text: string;
+}
+
+export function EditTextForm({ id, text, onClose }: IEditTextFormProps) {
+  const [textTask, setText] = useState(text);
+  const [error, setError] = useState('');
+  const [willDelete, setWillDelete] = useState(false);
+
+  const ref = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+
+  const animatedProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    config: { duration: 400 },
+    reset: true,
+    reverse: willDelete,
+    onRest: () => {
+      if (willDelete) {
+        setError('');
+        setWillDelete(false);
+      }
+    },
+  });
+
+  const handlSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (ref.current?.value.trim().length) {
+      dispatch(updateNameTodo({ id, name: ref.current?.value }));
+      onClose();
+      return;
+    }
+    setError('Поле обязательно для заполенния');
+    ref.current?.focus();
+  };
+
+  return (
+    <form className={styles.form} onSubmit={handlSubmit}>
+      <TextComponent
+        children={'Измените название задачи'}
+        size={24}
+        As={'h3'}
+        addClass={styles.title}
+      />
+      {error && (
+        <animated.span className={styles.errorMessage} style={animatedProps}>
+          {error}
+        </animated.span>
+      )}
+      <input
+        type="text"
+        className={styles.input}
+        autoFocus
+        ref={ref}
+        value={textTask}
+        onChange={(e) => {
+          setText(e.target.value);
+          if (!willDelete) {
+            setWillDelete(true);
+          }
+        }}
+      />
+      <ActionBtn
+        children={'Принять'}
+        type={EBtnType.green}
+        addClass={styles.btnAccept}
+      />
+      <button type="button" className={styles.btnCancel} onClick={onClose}>
+        <TextComponent children={'Отмена'} size={16} />
+      </button>
+    </form>
+  );
+}

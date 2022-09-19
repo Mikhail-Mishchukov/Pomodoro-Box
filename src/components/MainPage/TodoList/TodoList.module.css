@@ -1,0 +1,6 @@
+.list {
+  margin-bottom: 19px;
+}
+.listContainer {
+  grid-area: 'todo';
+}

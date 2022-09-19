@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { addTaskFormReducer } from './addTastForm/addTaskForm';
 import { staticReducer } from './static/staticSlice';
 import { timerReducer } from './timerBlock/timerBlockSlice';
 import { todoReducer } from './todo/todoSlice';
 
 const store = configureStore({
   reducer: {
+    form: addTaskFormReducer,
     todos: todoReducer,
     timerBlock: timerReducer,
     static: staticReducer,
