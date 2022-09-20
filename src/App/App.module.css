@@ -1,4 +1,9 @@
+@import '../global.css';
 .errorContainer {
   padding-top: 250px;
   text-align: center;
+}
+.appContainer {
+  background-color: var(--theme);
+  min-height: 100vh;
 }

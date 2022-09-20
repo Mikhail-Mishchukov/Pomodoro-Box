@@ -15,9 +15,7 @@ export function TodoList() {
 
   useEffect(() => {
     if (Math.abs(currentAllTime - allTime) > 59) {
-      if (allTime !== 0) {
-        setCurrentAllTime(allTime);
-      }
+      setCurrentAllTime(allTime);
     }
   }, [allTime]);
 

@@ -24,3 +24,9 @@
 .link:hover div svg path {
   fill: var(--redB7);
 }
+.rightSideContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  align-items: center;
+}

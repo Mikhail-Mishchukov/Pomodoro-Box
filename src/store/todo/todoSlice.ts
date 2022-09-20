@@ -187,9 +187,5 @@ export const {
   doneTomato,
   setCurrentTimeBreak,
   setActiveTask,
-  //deleteCurrentTimeFromAllTime,
 } = todoSlice.actions;
 export const todoReducer = todoSlice.reducer;
-
-// Общее время задач нарисовать + анимация
-// Анимация в таймере мб анимация в деле ??

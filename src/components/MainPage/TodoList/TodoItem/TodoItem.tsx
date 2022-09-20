@@ -31,9 +31,10 @@ import {
   updateName,
   updateTime,
 } from '../../../../store/timerBlock/timerBlockSlice';
-
 import { ITodoItem } from '../../../../store/todo/todoSlice';
 import { incrimentTomatoCounter } from '../../../../store/static/staticSlice';
+import { toast } from 'react-toastify';
+const soundNotice = require('../../../../assets/sound/notification.mp3');
 
 interface ITodoItemComp {
   todo: ITodoItem;
@@ -55,6 +56,8 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
 
   const dispatch = useAppDispatch();
 
+  const Sound = new Audio(soundNotice);
+
   useEffect(() => {
     dispatch(updateTime({ id: id, time: currentTimeForTomato }));
     if (currentTimeForTomato === 0) {
@@ -71,6 +74,12 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
             dispatch(decreaseTimerBreak(id));
           }, 1000)
         )
+      );
+      Sound.play();
+      toast.success(
+        <div className={styles.notification}>
+          Помидор окончен, можно сделать перерыв.
+        </div>
       );
     }
   }, [currentTimeForTomato]);
@@ -90,6 +99,10 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
         dispatch(incrimentTomatoCounter());
         dispatch(doneTomato(id));
       }
+      Sound.play();
+      toast.success(
+        <div className={styles.notification}>Перерыв окончен.</div>
+      );
     }
   }, [currentTimeForBreak]);
 

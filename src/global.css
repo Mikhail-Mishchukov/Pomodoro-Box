@@ -60,14 +60,37 @@
   --blue7F: #7fc2d7;
   --green89: #899441;
   --redEE: #ee735d;
+  --theme: #fff;
 }
-
+[data-theme='light'] {
+  --theme: #fff;
+  --black: #333333;
+  --grayC4: #c4c4c4;
+  --grayF4: #f4f4f4;
+  --gray99: #999999;
+  --orange: #ffdda9;
+  --violet: #dfdcfe;
+  --blue: #c5f1ff;
+  --green: #a8b64f;
+}
+[data-theme='dark'] {
+  --theme: #141414;
+  --black: #ffffff;
+  --grayC4: #666666;
+  --grayF4: #bbbbbb;
+  --gray99: #5a5959;
+  --orange: #b28e6a;
+  --violet: #a1797d;
+  --blue: #105b6b;
+  --green: #687420;
+}
 body {
   padding: 0;
   margin: 0;
   font-family: 'SFUI', 'sans-serif';
   font-weight: 400;
 }
+
 * {
   color: var(--black);
   box-sizing: border-box;
@@ -111,4 +134,7 @@ h6 {
 }
 .recharts-cartesian-grid-horizontal line:nth-child(5) {
   display: none;
+}
+.Toastify__close-button--light svg path {
+  color: #000;
 }

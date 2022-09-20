@@ -70,3 +70,6 @@
   fill: var(--grayC4) !important;
   background-color: red;
 }
+.notification {
+  color: black;
+}
