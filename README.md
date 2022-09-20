@@ -1,25 +1,26 @@
-# Getting Started with Create React App
+# Pomodoro Box
+Для написания проекта был использован create-react-plugin.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Для запуска проекта необходимо иметь установленный Node js. 
+В директории с проектом, можно запустить ### `npm start` для старта проекта. Он автоматически откроется в браузере в режиме разработки на http://localhost:3000.  
+Для сборки приложения необходимо запустить ### `npm run build`. Приложение соберется в папку build.
 
-## Available Scripts
+Приложение написанно с использованием React, Redux/toolkit, React-Router-Dom, TypeScript. 
+В этом приложении реализована техника помодора. Так же есть отдельная страница с данными для анализа своей работы. 
+В приложении можно: 
+- Добавлять свое дело.
+- При добавлении нескольких дел, можно выбрать с каким начать работать. 
+- В каждом деле можно увеличить или уменьшить количество "помидор", изменить название или удалить дело. Все кнопки находятся в выпадающем списке.  
+- Интерактивная работа с таймером.
+- Информация для анализа по кнопке "Статистика" в шапке приложения. Для возвращения на страницу с таймером, необходимо нажать на логотип. 
+- На странице со статистикой, можно выбрать неделю, и выбрать конкретный день. Так же отображается красивый график за выбранную неделю. 
 
-In the project directory, you can run:
+![image](https://user-images.githubusercontent.com/109067893/191084690-3b7c3ed7-61cd-4f63-a6ff-5582938654c9.png)
+![image](https://user-images.githubusercontent.com/109067893/191084992-f6b160b0-7330-429d-b45d-e93382dcfc92.png)
+![image](https://user-images.githubusercontent.com/109067893/191085227-c5e44b93-bfe5-47cb-bcc6-f40f746fabb4.png)
+![image](https://user-images.githubusercontent.com/109067893/191085389-14bd89a2-d06a-43f2-b52d-f590c44b5bea.png)
+![image](https://user-images.githubusercontent.com/109067893/191085429-d1d1687b-2122-42d9-8510-943c01327939.png)
+![image](https://user-images.githubusercontent.com/109067893/191085580-15aead1d-2758-41bd-83e0-5e7a1eaf88f5.png)
+![image](https://user-images.githubusercontent.com/109067893/191085638-e5654933-84d9-4520-a7d7-8b05a2cb4f1e.png)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
