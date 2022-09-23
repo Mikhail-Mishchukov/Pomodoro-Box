@@ -49,6 +49,7 @@ export interface IStatic {
   staticInfo: IStaticInfo;
   numberOfDay: EWeek;
 }
+
 const initialState: IStatic = {
   weekAray: [
     {
@@ -64,143 +65,146 @@ const initialState: IStatic = {
       id: nanoid(),
     },
   ],
-  staticInfo: {
-    prelastWeek: {
-      monday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      tuesday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      wednesday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      thursday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      friday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      saturday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      sunday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      numberOfDayOfWeek: 0,
-    },
-    lastWeek: {
-      monday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      tuesday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      wednesday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      thursday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      friday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      saturday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      sunday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      numberOfDayOfWeek: 0,
-    },
-    thisWeek: {
-      monday: {
-        timeActiveTimer: 7200,
-        countTomato: 5,
-        countStops: 3,
-        pauseTime: 400,
-      },
-      tuesday: {
-        timeActiveTimer: 150,
-        countTomato: 0,
-        countStops: 5,
-        pauseTime: 61,
-      },
-      wednesday: {
-        timeActiveTimer: 1500,
-        countTomato: 1,
-        countStops: 0,
-        pauseTime: 5000,
-      },
-      thursday: {
-        timeActiveTimer: 0,
-        countTomato: 0,
-        countStops: 0,
-        pauseTime: 0,
-      },
-      friday: {
-        timeActiveTimer: 1500,
-        countTomato: 100,
-        countStops: 0,
-        pauseTime: 500,
-      },
-      saturday: {
-        timeActiveTimer: 1500,
-        countTomato: 4,
-        countStops: 0,
-        pauseTime: 544,
-      },
-      sunday: {
-        timeActiveTimer: 1500,
-        countTomato: 5,
-        countStops: 1,
-        pauseTime: 1805,
-      },
-      numberOfDayOfWeek: 0,
-    },
-  },
+  staticInfo: JSON.parse(
+    localStorage.getItem('staticInfo') ??
+      JSON.stringify({
+        prelastWeek: {
+          monday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          tuesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          wednesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          thursday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          friday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          saturday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          sunday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          numberOfDayOfWeek: 0,
+        },
+        lastWeek: {
+          monday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          tuesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          wednesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          thursday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          friday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          saturday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          sunday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          numberOfDayOfWeek: 0,
+        },
+        thisWeek: {
+          monday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          tuesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          wednesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          thursday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          friday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          saturday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          sunday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          numberOfDayOfWeek: 0,
+        },
+      })
+  ),
   numberOfDay: getDayOfWeek(new Date()),
 };
 const staticSlice = createSlice({
@@ -208,11 +212,58 @@ const staticSlice = createSlice({
   initialState,
   reducers: {
     setWeekStitisticInfo(state) {
-      //const numberOfWeek = getNumberOfWeek();
-      //Когда будет сохранение инфы, сделать обновление недель, пока что просто инициализируем недели в 0;
-      state.staticInfo.thisWeek.numberOfDayOfWeek = getNumberOfWeek();
-      state.staticInfo.lastWeek.numberOfDayOfWeek = getNumberOfWeek() - 1;
-      state.staticInfo.prelastWeek.numberOfDayOfWeek = getNumberOfWeek() - 2;
+      const numberOfWeek = getNumberOfWeek();
+      if (state.staticInfo.thisWeek.numberOfDayOfWeek !== numberOfWeek) {
+        state.staticInfo.prelastWeek = state.staticInfo.lastWeek;
+        state.staticInfo.lastWeek = state.staticInfo.thisWeek;
+        state.staticInfo.thisWeek = {
+          monday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          tuesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          wednesday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          thursday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          friday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          saturday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          sunday: {
+            timeActiveTimer: 0,
+            countTomato: 0,
+            countStops: 0,
+            pauseTime: 0,
+          },
+          numberOfDayOfWeek: 0,
+        };
+        state.staticInfo.thisWeek.numberOfDayOfWeek = getNumberOfWeek();
+        localStorage.setItem('staticInfo', JSON.stringify(state.staticInfo));
+      }
     },
     setWeek(state, action: PayloadAction<string>) {
       const choosen = state.weekAray.find((item) => item.id === action.payload);
@@ -225,15 +276,19 @@ const staticSlice = createSlice({
     },
     incrimentTimeActiveTimer(state) {
       state.staticInfo.thisWeek[getDayOfWeek(new Date())].timeActiveTimer++;
+      localStorage.setItem('staticInfo', JSON.stringify(state.staticInfo));
     },
     incrimentTimePauseTimer(state) {
       state.staticInfo.thisWeek[getDayOfWeek(new Date())].pauseTime++;
+      localStorage.setItem('staticInfo', JSON.stringify(state.staticInfo));
     },
     incrimentTomatoCounter(state) {
       state.staticInfo.thisWeek[getDayOfWeek(new Date())].countTomato++;
+      localStorage.setItem('staticInfo', JSON.stringify(state.staticInfo));
     },
     incrimentStopsCounter(state) {
       state.staticInfo.thisWeek[getDayOfWeek(new Date())].countStops++;
+      localStorage.setItem('staticInfo', JSON.stringify(state.staticInfo));
     },
     setChoosenDayOfWeek(state, action: PayloadAction<number>) {
       state.numberOfDay = getDayOfWeek(

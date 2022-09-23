@@ -6,6 +6,7 @@ import {
   incrimentTimeActiveTimer,
   incrimentTimePauseTimer,
 } from '../../../store/static/staticSlice';
+import { animated, useSpring } from 'react-spring';
 
 import {
   addMinuteForBreak,
@@ -16,6 +17,11 @@ import {
   setActiveTask,
   setCurrentTimeBreak,
   setTimerBreak,
+  updateCountBreak,
+  updateCurrentTimeForTomato,
+  updateSetTimeForBigBreak,
+  updateSetTimeForBreak,
+  updateSetTimeForTomato,
 } from '../../../store/todo/todoSlice';
 import { ActionBtn, EBtnType } from '../../common/ActionBtn';
 import { EIcons, Icon } from '../../common/Icon';
@@ -33,9 +39,34 @@ import {
   setTimerId,
   stopTimer,
 } from '../../../store/timerBlock/timerBlockSlice';
+import { useState } from 'react';
+import { changeNotifications } from '../../../store/appState/appStateSlice';
+import { getMinutes } from '../../../utils/getMinutes';
+import { getHours } from '../../../utils/getHours';
 
 export function TimerBlock() {
   const timerInfo = useAppSelector((state) => state.timerBlock);
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSettingsNeedAnimation, setIsSettingsNeedAnimation] = useState(false);
+  const [isSettingsOpenWillClose, setIsSettingsOpenWillClose] = useState(false);
+
+  const animatedProps = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    config: { duration: 400 },
+    reset: isSettingsNeedAnimation,
+    reverse: isSettingsOpenWillClose,
+    onRest: () => {
+      if (isSettingsOpenWillClose) {
+        setIsSettingsOpen(false);
+        setIsSettingsOpenWillClose(false);
+      }
+      if (isSettingsNeedAnimation) {
+        setIsSettingsNeedAnimation(false);
+      }
+    },
+  });
 
   const dispatch = useAppDispatch();
 
@@ -107,6 +138,7 @@ export function TimerBlock() {
   const handlClickBreakContinue = () => {
     dispatch(setIsTimerBreakOnPause(false));
     dispatch(setIsTimerBreakActive(true));
+    dispatch(setActiveTask(true));
     dispatch(
       setTimerId(
         setInterval(() => {
@@ -155,6 +187,22 @@ export function TimerBlock() {
         />
       </div>
       <div className={styles.content}>
+        <button
+          className={styles.settingsBtn}
+          onClick={() => {
+            setIsSettingsOpen(true);
+            setIsSettingsNeedAnimation(true);
+          }}
+          disabled={
+            timerInfo.numberTask &&
+            !timerInfo.isTimerActive &&
+            !timerInfo.isTimerBreakActive
+              ? false
+              : true
+          }
+        >
+          <Icon name={EIcons.settings} widthSize={50} heightSize={50} />
+        </button>
         <div className={styles.timerConteiner}>
           <TimerDisplay
             addClass={
@@ -347,6 +395,354 @@ export function TimerBlock() {
             )}
         </div>
       </div>
+      {isSettingsOpen && (
+        <animated.form
+          style={animatedProps}
+          className={styles.settingsWindow}
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <button
+            className={styles.btnCloseSettingWindow}
+            onClick={() => {
+              setIsSettingsOpenWillClose(true);
+            }}
+          >
+            <div className={styles.btnCloseCross}></div>
+            <div className={styles.btnCloseCross}></div>
+          </button>
+          <label className={styles.label}>
+            <TextComponent
+              size={24}
+              children={'Продолжительность помидора: '}
+              color={EColor.white}
+              addClass={styles.labelText}
+            />
+
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForTomato({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setTime + 3600,
+                    })
+                  );
+                  if (
+                    !timerInfo.isTimerOnPause &&
+                    !timerInfo.isTimerBreakOnPause
+                  ) {
+                    dispatch(updateCurrentTimeForTomato(timerInfo.todoID));
+                  }
+                }}
+              >
+                +
+              </button>
+              <input
+                className={styles.input}
+                value={getHours(timerInfo.setTime)}
+                type="number"
+                disabled={true}
+              />
+              <button
+                className={styles.btnChangeTime}
+                disabled={getHours(timerInfo.setTime) === 0 ? true : false}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForTomato({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setTime - 3600,
+                    })
+                  );
+                  if (
+                    !timerInfo.isTimerOnPause &&
+                    !timerInfo.isTimerBreakOnPause
+                  ) {
+                    dispatch(updateCurrentTimeForTomato(timerInfo.todoID));
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+            <TextComponent size={16} children={':'} color={EColor.white} />
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                disabled={getMinutes(timerInfo.setTime) === 59 ? true : false}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForTomato({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setTime + 60,
+                    })
+                  );
+                  if (
+                    !timerInfo.isTimerOnPause &&
+                    !timerInfo.isTimerBreakOnPause
+                  ) {
+                    dispatch(updateCurrentTimeForTomato(timerInfo.todoID));
+                  }
+                }}
+              >
+                +
+              </button>
+              <input
+                className={styles.input}
+                value={getMinutes(timerInfo.setTime)}
+                type="number"
+                disabled={true}
+              />
+              <button
+                disabled={getMinutes(timerInfo.setTime) <= 1}
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForTomato({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setTime - 60,
+                    })
+                  );
+                  if (
+                    !timerInfo.isTimerOnPause &&
+                    !timerInfo.isTimerBreakOnPause
+                  ) {
+                    dispatch(updateCurrentTimeForTomato(timerInfo.todoID));
+                  }
+                }}
+              >
+                -
+              </button>
+            </div>
+          </label>
+          <label className={styles.label}>
+            <TextComponent
+              size={24}
+              children={'Продолжительность короткого перерыва:'}
+              color={EColor.white}
+              addClass={styles.labelText}
+            />
+
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBreak + 3600,
+                    })
+                  );
+                }}
+              >
+                +
+              </button>
+              <input
+                disabled={true}
+                value={getHours(timerInfo.setBreak)}
+                className={styles.input}
+                type="number"
+              />
+              <button
+                disabled={getHours(timerInfo.setBreak) === 0 ? true : false}
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBreak - 3600,
+                    })
+                  );
+                }}
+              >
+                -
+              </button>
+            </div>
+            <TextComponent size={16} children={':'} color={EColor.white} />
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                disabled={getMinutes(timerInfo.setBreak) === 59 ? true : false}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBreak + 60,
+                    })
+                  );
+                }}
+              >
+                +
+              </button>
+              <input
+                disabled={true}
+                className={styles.input}
+                value={getMinutes(timerInfo.setBreak)}
+                type="number"
+              />
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBreak - 60,
+                    })
+                  );
+                }}
+                disabled={getMinutes(timerInfo.setBreak) === 0 ? true : false}
+              >
+                -
+              </button>
+            </div>
+          </label>
+          <label className={styles.label}>
+            <TextComponent
+              size={24}
+              children={'Продолжительность длинного перерыва:'}
+              color={EColor.white}
+              addClass={styles.labelText}
+            />
+
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBigBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBigBreak + 3600,
+                    })
+                  );
+                }}
+              >
+                +
+              </button>
+              <input
+                disabled={true}
+                value={getHours(timerInfo.setBigBreak)}
+                className={styles.input}
+                type="number"
+              />
+              <button
+                className={styles.btnChangeTime}
+                disabled={getHours(timerInfo.setBigBreak) === 0 ? true : false}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBigBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBigBreak - 3600,
+                    })
+                  );
+                }}
+              >
+                -
+              </button>
+            </div>
+            <TextComponent size={16} children={':'} color={EColor.white} />
+            <div className={styles.containerTime}>
+              <button
+                disabled={
+                  getMinutes(timerInfo.setBigBreak) === 59 ? true : false
+                }
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBigBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBigBreak + 60,
+                    })
+                  );
+                }}
+              >
+                +
+              </button>
+              <input
+                disabled={true}
+                className={styles.input}
+                value={getMinutes(timerInfo.setBigBreak)}
+                type="number"
+              />
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateSetTimeForBigBreak({
+                      id: timerInfo.todoID,
+                      time: timerInfo.setBigBreak - 60,
+                    })
+                  );
+                }}
+                disabled={
+                  getMinutes(timerInfo.setBigBreak) === 0 ? true : false
+                }
+              >
+                -
+              </button>
+            </div>
+          </label>
+          <label className={styles.label}>
+            <TextComponent
+              size={24}
+              children={'Частота длинных перерывов:'}
+              color={EColor.white}
+              addClass={styles.labelText}
+            />
+
+            <div className={styles.containerTime}>
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateCountBreak({
+                      id: timerInfo.todoID,
+                      count: timerInfo.countBreak + 1,
+                    })
+                  );
+                }}
+              >
+                +
+              </button>
+              <input
+                disabled={true}
+                className={styles.input}
+                value={timerInfo.countBreak}
+                type="number"
+              />
+              <button
+                className={styles.btnChangeTime}
+                onClick={() => {
+                  dispatch(
+                    updateCountBreak({
+                      id: timerInfo.todoID,
+                      count: timerInfo.countBreak - 1,
+                    })
+                  );
+                }}
+              >
+                -
+              </button>
+            </div>
+          </label>
+          <div className={styles.label}>
+            <TextComponent
+              size={24}
+              children={'Уведомления:'}
+              color={EColor.white}
+              addClass={styles.labelText}
+            />
+
+            <label className={styles.checkbox}>
+              <input
+                type="checkbox"
+                defaultChecked={timerInfo.isNotoficationsActive}
+                onChange={() => dispatch(changeNotifications())}
+              ></input>
+              <span className={styles.checkboxSwitch}></span>
+            </label>
+          </div>
+        </animated.form>
+      )}
     </div>
   );
 }

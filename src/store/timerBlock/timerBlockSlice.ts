@@ -14,6 +14,11 @@ export interface ITimerBlock {
   isTimerBreakActive: boolean;
   isTaskBreakActive: boolean;
   isTimerBreakOnPause: boolean;
+  isNotoficationsActive: boolean;
+  countBreak: number;
+  setBigBreak: number;
+  setBreak: number;
+  setTime: number;
 }
 const initialState: ITimerBlock = {
   todoID: '',
@@ -29,6 +34,11 @@ const initialState: ITimerBlock = {
   isTimerBreakActive: false,
   isTaskBreakActive: false,
   isTimerBreakOnPause: false,
+  isNotoficationsActive: true,
+  countBreak: 0,
+  setBigBreak: 900,
+  setBreak: 300,
+  setTime: 0,
 };
 const timerBlockSlice = createSlice({
   name: 'TimerBlock',
@@ -48,6 +58,11 @@ const timerBlockSlice = createSlice({
         state.isTimerBreakActive = action.payload.isTimerBreakActive;
         state.isTaskBreakActive = action.payload.isTaskBreakActive;
         state.isTimerBreakOnPause = action.payload.isTimerBreakOnPause;
+        state.isNotoficationsActive = action.payload.isNotoficationsActive;
+        state.countBreak = action.payload.countBreak;
+        state.setBigBreak = action.payload.setBigBreak;
+        state.setBreak = action.payload.setBreak;
+        state.setTime = action.payload.setTime;
       }
     },
     updateName(state, action: PayloadAction<{ id: string; name: string }>) {
@@ -90,6 +105,35 @@ const timerBlockSlice = createSlice({
         state.numberBreak = action.payload.count;
       }
     },
+    setIsNotificationActive(state, action: PayloadAction<boolean>) {
+      state.isNotoficationsActive = action.payload;
+    },
+    updateCountBreak(
+      state,
+      action: PayloadAction<{ id: string; count: number }>
+    ) {
+      if (state.todoID === action.payload.id) {
+        state.countBreak = action.payload.count;
+      }
+    },
+    updateSetBigBreak(
+      state,
+      action: PayloadAction<{ id: string; time: number }>
+    ) {
+      if (state.todoID === action.payload.id) {
+        state.setBigBreak = action.payload.time;
+      }
+    },
+    updateSetBreak(state, action: PayloadAction<{ id: string; time: number }>) {
+      if (state.todoID === action.payload.id) {
+        state.setBreak = action.payload.time;
+      }
+    },
+    updateSetTime(state, action: PayloadAction<{ id: string; time: number }>) {
+      if (state.todoID === action.payload.id) {
+        state.setTime = action.payload.time;
+      }
+    },
   },
 });
 
@@ -106,5 +150,10 @@ export const {
   setIsTimerBreakOnPause,
   stopTimer,
   updateCount,
+  setIsNotificationActive,
+  updateCountBreak,
+  updateSetBigBreak,
+  updateSetBreak,
+  updateSetTime,
 } = timerBlockSlice.actions;
 export const timerReducer = timerBlockSlice.reducer;

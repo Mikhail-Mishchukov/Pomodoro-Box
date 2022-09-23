@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 
 export interface IAppState {
   theme: string;
+  notifications: boolean;
 }
 
 const initialState: IAppState = {
-  theme: 'light',
+  theme: localStorage.getItem('theme') ?? 'light',
+  notifications: JSON.parse(localStorage.getItem('notifications') ?? 'true'),
 };
 
 const appStateSlice = createSlice({
@@ -19,9 +20,17 @@ const appStateSlice = createSlice({
       } else {
         state.theme = 'light';
       }
+      localStorage.setItem('theme', state.theme);
+    },
+    changeNotifications(state, action: PayloadAction) {
+      state.notifications = !state.notifications;
+      localStorage.setItem(
+        'notifications',
+        JSON.stringify(state.notifications)
+      );
     },
   },
 });
 
-export const { changeTheme } = appStateSlice.actions;
+export const { changeTheme, changeNotifications } = appStateSlice.actions;
 export const appStateReducer = appStateSlice.reducer;

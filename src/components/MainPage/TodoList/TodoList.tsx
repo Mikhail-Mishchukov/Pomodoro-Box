@@ -10,6 +10,7 @@ export function TodoList() {
   const todos = useAppSelector((state) => state.todos.list);
   const allTime = useAppSelector((state) => state.todos.allTime);
   const isActive = useAppSelector((state) => state.todos.isActiveTimer);
+  const needNotifications = useAppSelector((state) => state.app.notifications);
 
   const [currentAllTime, setCurrentAllTime] = useState(allTime);
 
@@ -36,7 +37,12 @@ export function TodoList() {
     <div className={styles.listContainer}>
       <ul className={styles.list}>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} isActive={isActive} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            isActive={isActive}
+            notifications={needNotifications}
+          />
         ))}
       </ul>
       <animated.span style={animatedProps}>

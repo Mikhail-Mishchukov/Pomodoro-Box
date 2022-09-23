@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { useAppDispatch } from '../../../../store/hooks';
 import { useSpring, animated } from 'react-spring';
 import {
   incrementCountTomato,
@@ -18,6 +18,7 @@ import { DeleteForm } from './DeleteForm';
 import { EditTextForm } from './EditTextForm';
 import styles from './TodoItem.module.css';
 import {
+  setIsNotificationActive,
   setIsTaskBreakActive,
   setIsTimerActive,
   setIsTimerBreakActive,
@@ -28,7 +29,11 @@ import {
   setTimerId,
   stopTimer,
   updateCount,
+  updateCountBreak,
   updateName,
+  updateSetBigBreak,
+  updateSetBreak,
+  updateSetTime,
   updateTime,
 } from '../../../../store/timerBlock/timerBlockSlice';
 import { ITodoItem } from '../../../../store/todo/todoSlice';
@@ -39,9 +44,10 @@ const soundNotice = require('../../../../assets/sound/notification.mp3');
 interface ITodoItemComp {
   todo: ITodoItem;
   isActive: boolean;
+  notifications: boolean;
 }
 
-export function TodoItem({ todo, isActive }: ITodoItemComp) {
+export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
   const {
     id,
     name,
@@ -52,6 +58,10 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
     currentTimeForTomato,
     currentTimeForBreak,
     willDelete,
+    setCountBreak,
+    setTimeForBigBreak,
+    setTimeForBreak,
+    setTimeForTomato,
   } = todo;
 
   const dispatch = useAppDispatch();
@@ -60,59 +70,85 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
 
   useEffect(() => {
     dispatch(updateTime({ id: id, time: currentTimeForTomato }));
-    if (currentTimeForTomato === 0) {
-      dispatch(stopTimer());
-      dispatch(setIsTimerActive(false));
-      dispatch(setIsTimerOnPause(false));
-      dispatch(setIsTimerTaskActive(false));
-      dispatch(setTimerBreak(id));
-      dispatch(setIsTimerBreakActive(true));
-      dispatch(setIsTaskBreakActive(true));
-      dispatch(
-        setTimerId(
-          setInterval(() => {
-            dispatch(decreaseTimerBreak(id));
-          }, 1000)
-        )
-      );
-      Sound.play();
-      toast.success(
-        <div className={styles.notification}>
-          Помидор окончен, можно сделать перерыв.
-        </div>
-      );
+    if (isActive) {
+      if (currentTimeForTomato === 0) {
+        dispatch(stopTimer());
+        dispatch(setIsTimerActive(false));
+        dispatch(setIsTimerOnPause(false));
+        dispatch(setIsTimerTaskActive(false));
+        dispatch(setTimerBreak(id));
+        dispatch(setIsTimerBreakActive(true));
+        dispatch(setIsTaskBreakActive(true));
+        dispatch(
+          setTimerId(
+            setInterval(() => {
+              dispatch(decreaseTimerBreak(id));
+            }, 1000)
+          )
+        );
+        if (notifications) {
+          Sound.play();
+          toast.success(
+            <div className={styles.notification}>
+              Помидор окончен, можно сделать перерыв.
+            </div>
+          );
+        }
+      }
     }
   }, [currentTimeForTomato]);
 
   useEffect(() => {
-    dispatch(updateTime({ id: id, time: currentTimeForBreak }));
-    if (currentTimeForBreak === 0) {
-      dispatch(stopTimer());
-      dispatch(setIsTimerBreakOnPause(false));
-      dispatch(setIsTimerBreakActive(false));
-      dispatch(setIsTaskBreakActive(false));
-      dispatch(setIsTimerBreakActive(false));
-      dispatch(setActiveTask(false));
-      if (allTomato === currentTomato) {
-        dispatch(setWillTodoDelete(id));
-      } else {
-        dispatch(incrimentTomatoCounter());
-        dispatch(doneTomato(id));
+    if (isActive) {
+      dispatch(updateTime({ id: id, time: currentTimeForBreak }));
+      if (currentTimeForBreak === 0) {
+        dispatch(stopTimer());
+        dispatch(setIsTimerBreakOnPause(false));
+        dispatch(setIsTimerBreakActive(false));
+        dispatch(setIsTaskBreakActive(false));
+        dispatch(setIsTimerBreakActive(false));
+        dispatch(setActiveTask(false));
+        if (allTomato === currentTomato) {
+          dispatch(setWillTodoDelete(id));
+          dispatch(incrimentTomatoCounter());
+        } else {
+          dispatch(incrimentTomatoCounter());
+          dispatch(doneTomato(id));
+        }
+        if (notifications) {
+          Sound.play();
+          toast.success(
+            <div className={styles.notification}>Перерыв окончен.</div>
+          );
+        }
       }
-      Sound.play();
-      toast.success(
-        <div className={styles.notification}>Перерыв окончен.</div>
-      );
     }
   }, [currentTimeForBreak]);
 
   useEffect(() => {
     dispatch(updateName({ id: id, name: name }));
   }, [name]);
+  useEffect(() => {
+    dispatch(updateCountBreak({ id: id, count: setCountBreak }));
+  }, [setCountBreak]);
+
+  useEffect(() => {
+    dispatch(setIsNotificationActive(notifications));
+  }, [notifications]);
 
   useEffect(() => {
     dispatch(updateCount({ id: id, count: currentTomato }));
   }, [currentTomato]);
+
+  useEffect(() => {
+    dispatch(updateSetBigBreak({ id: id, time: setTimeForBigBreak }));
+  }, [setTimeForBigBreak]);
+  useEffect(() => {
+    dispatch(updateSetBreak({ id: id, time: setTimeForBreak }));
+  }, [setTimeForBreak]);
+  useEffect(() => {
+    dispatch(updateSetTime({ id: id, time: setTimeForTomato }));
+  }, [setTimeForTomato]);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -146,6 +182,11 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
             isTimerBreakActive: false,
             isTaskBreakActive: false,
             isTimerBreakOnPause: false,
+            isNotoficationsActive: notifications,
+            countBreak: setCountBreak,
+            setBigBreak: setTimeForBigBreak,
+            setBreak: setTimeForBreak,
+            setTime: setTimeForTomato,
           })
         );
       }
@@ -186,23 +227,54 @@ export function TodoItem({ todo, isActive }: ITodoItemComp) {
   };
   const handClickChooseTodo = () => {
     if (!isActive) {
-      dispatch(
-        setTimer({
-          todoID: id,
-          time: currentTimeForTomato,
-          name: name,
-          numberTask: numberOfTask,
-          numberTomato: currentTomato,
-          numberBreak: countBreak,
-          timerId: undefined,
-          isTimerActive: false,
-          isTaskActive: false,
-          isTimerOnPause: false,
-          isTimerBreakActive: false,
-          isTaskBreakActive: false,
-          isTimerBreakOnPause: false,
-        })
-      );
+      if (currentTimeForTomato !== 0) {
+        dispatch(
+          setTimer({
+            todoID: id,
+            time: currentTimeForTomato,
+            name: name,
+            numberTask: numberOfTask,
+            numberTomato: currentTomato,
+            numberBreak: countBreak,
+            timerId: undefined,
+            isTimerActive: false,
+            isTaskActive: false,
+            isTimerOnPause: false,
+            isTimerBreakActive: false,
+            isTaskBreakActive: false,
+            isTimerBreakOnPause: false,
+            isNotoficationsActive: notifications,
+            countBreak: setCountBreak,
+            setBigBreak: setTimeForBigBreak,
+            setBreak: setTimeForBreak,
+            setTime: setTimeForTomato,
+          })
+        );
+      } else {
+        dispatch(
+          setTimer({
+            todoID: id,
+            time: currentTimeForBreak,
+            name: name,
+            numberTask: numberOfTask,
+            numberTomato: currentTomato,
+            numberBreak: countBreak,
+            timerId: undefined,
+            isTimerActive: false,
+            isTaskActive: false,
+            isTimerOnPause: false,
+            isTimerBreakActive: false,
+            isTaskBreakActive: true,
+            isTimerBreakOnPause: true,
+            isNotoficationsActive: notifications,
+            countBreak: setCountBreak,
+            setBigBreak: setTimeForBigBreak,
+            setBreak: setTimeForBreak,
+            setTime: setTimeForTomato,
+          })
+        );
+        dispatch(setActiveTask(true));
+      }
     }
   };
   return (

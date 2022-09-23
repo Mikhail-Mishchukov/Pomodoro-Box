@@ -15,6 +15,7 @@ import {
   TrashcanIcon,
 } from './icons';
 import styles from './Icon.module.css';
+import { SettingsIcon } from './icons/SettingsIcon';
 
 export enum EIcons {
   logo = 'LogoIcon',
@@ -30,6 +31,7 @@ export enum EIcons {
   focusCard = 'FocusCardIcon',
   pauseCard = 'PauseCardIcon',
   stopsCard = 'StopsCardIcon',
+  settings = 'SettingsIcon',
 }
 const icons = {
   LogoIcon: <LogoIcon />,
@@ -45,6 +47,7 @@ const icons = {
   FocusCardIcon: <FocusCardIcon />,
   PauseCardIcon: <PauseCardIcon />,
   StopsCardIcon: <StopsCardIcon />,
+  SettingsIcon: <SettingsIcon />,
 };
 
 type TWidthSize = 205 | 108 | 81 | 50 | 26 | 16 | 15;
