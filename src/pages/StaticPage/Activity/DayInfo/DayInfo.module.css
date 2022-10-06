@@ -1,0 +1,13 @@
+.dayOfWeekContainer {
+  padding: 25px;
+  background-color: var(--grayF4);
+  grid-area: dayInfo;
+  min-height: 260px;
+}
+.dayOfWeek {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.workTimeInfo {
+  font-weight: 700;
+}

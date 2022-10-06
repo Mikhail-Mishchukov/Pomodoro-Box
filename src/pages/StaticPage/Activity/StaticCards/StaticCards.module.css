@@ -1,0 +1,47 @@
+.infoCardContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+.infoCard {
+  position: relative;
+  padding: 25px;
+  background-repeat: no-repeat;
+  background-position: 261px 35px;
+  background-color: var(--grayF4);
+}
+.infoCard path {
+  stroke: var(--grayC4);
+}
+.infoCardActive .infoCardFocus {
+  background-color: var(--orange);
+}
+.infoCardActive .infoCardFocus path {
+  stroke: var(--orangeFF);
+}
+.infoCardActive .infoCardPause {
+  background-color: var(--violet);
+}
+.infoCardActive .infoCardPause path {
+  stroke: var(--violet9C);
+}
+.infoCardActive .infoCardStops {
+  background-color: var(--blue);
+}
+.infoCardActive .infoCardStops path {
+  stroke: var(--blue7F);
+}
+.cardTitle {
+  display: block;
+  margin-bottom: 20px;
+}
+.cardIcon {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  z-index: 0;
+}
+.cardData {
+  position: relative;
+  z-index: 1;
+}

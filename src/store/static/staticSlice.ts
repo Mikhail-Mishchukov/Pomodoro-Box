@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
-import { getDayOfWeek } from '../../utils/getDayOfWeek';
-import { getNumberOfWeek } from '../../utils/getNumberOfWeek';
+import { getDayOfWeek, getNumberOfWeek } from '../../utils/workWithChart';
 
 export enum EBtnWeek {
   thisWeek = 'Эта неделя',

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import '../global.css';
-import { MainPage } from '../components/MainPage';
-import { StaticPage } from '../components/StaticPage';
+import { MainPage } from '../pages/MainPage';
+import { StaticPage } from '../pages/StaticPage';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setWeekStitisticInfo } from '../store/static/staticSlice';
 import styles from './App.module.css';

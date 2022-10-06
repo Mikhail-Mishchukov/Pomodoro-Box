@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { addTaskFormReducer } from './addTastForm/addTaskForm';
-import { appStateReducer } from './appState/appStateSlice';
+import { addTaskFormReducer } from './addTaskForm/addTaskForm';
+import { appReducer } from './app/appSlice';
 import { staticReducer } from './static/staticSlice';
 import { timerReducer } from './timerBlock/timerBlockSlice';
 import { todoReducer } from './todo/todoSlice';
@@ -11,7 +11,7 @@ const store = configureStore({
     todos: todoReducer,
     timerBlock: timerReducer,
     static: staticReducer,
-    app: appStateReducer,
+    app: appReducer,
   },
 });
 

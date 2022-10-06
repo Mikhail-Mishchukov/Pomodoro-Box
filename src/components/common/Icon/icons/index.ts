@@ -2,7 +2,7 @@ export * from './LogoIcon';
 export * from './ChartIcon';
 export * from './PlusIcon';
 export * from './MenuIcon';
-export * from './SmallplusIcon';
+export * from './SmallPlusIcon';
 export * from './MinusIcon';
 export * from './PenIcon';
 export * from './TrashcanIcon';

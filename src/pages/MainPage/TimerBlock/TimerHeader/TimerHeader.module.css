@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--grayC4);
+  padding: 19px 40px;
+  min-height: 55px;
+}
+.headerActive {
+  background-color: var(--red);
+}
+.headerBreakActive {
+  background-color: var(--green);
+}
