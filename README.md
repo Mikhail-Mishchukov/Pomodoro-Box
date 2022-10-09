@@ -13,14 +13,19 @@
 - В каждом деле можно увеличить или уменьшить количество "помидор", изменить название или удалить дело. Все кнопки находятся в выпадающем списке.  
 - Интерактивная работа с таймером.
 - Информация для анализа по кнопке "Статистика" в шапке приложения. Для возвращения на страницу с таймером, необходимо нажать на логотип. 
-- На странице со статистикой, можно выбрать неделю, и выбрать конкретный день. Так же отображается красивый график за выбранную неделю. 
+- На странице со статистикой, можно выбрать неделю, и выбрать конкретный день. Так же отображается красивый график за выбранную неделю.
+- Можно поменять тему.
+- Приложение уведомляет об окончании очередного помидора или отдыха с помощью уведомления на экране и звука.
+- Можно настроить для каждого дела отдельный таймер с различными параметрами.
+- Стейт приложения сохраняется в localStorage. 
 
-![image](https://user-images.githubusercontent.com/109067893/191084690-3b7c3ed7-61cd-4f63-a6ff-5582938654c9.png)
-![image](https://user-images.githubusercontent.com/109067893/191084992-f6b160b0-7330-429d-b45d-e93382dcfc92.png)
-![image](https://user-images.githubusercontent.com/109067893/191085227-c5e44b93-bfe5-47cb-bcc6-f40f746fabb4.png)
-![image](https://user-images.githubusercontent.com/109067893/191085389-14bd89a2-d06a-43f2-b52d-f590c44b5bea.png)
-![image](https://user-images.githubusercontent.com/109067893/191085429-d1d1687b-2122-42d9-8510-943c01327939.png)
-![image](https://user-images.githubusercontent.com/109067893/191085580-15aead1d-2758-41bd-83e0-5e7a1eaf88f5.png)
-![image](https://user-images.githubusercontent.com/109067893/191085638-e5654933-84d9-4520-a7d7-8b05a2cb4f1e.png)
+![image](https://user-images.githubusercontent.com/109067893/194271443-bd8b8812-a1e3-41c0-8175-f2fdbc51d361.png)
+![image](https://user-images.githubusercontent.com/109067893/194271584-dc15df00-5fa1-4524-b4ba-b64472728b30.png)
+![image](https://user-images.githubusercontent.com/109067893/194271715-9ebcd2f1-b7ae-4f44-b15a-26821f15612e.png)
+![image](https://user-images.githubusercontent.com/109067893/194271916-5ae5e561-8eed-4396-8426-1821ab25c1cd.png)
+![image](https://user-images.githubusercontent.com/109067893/194272047-8f3b5a62-81ab-4269-af83-0b303fdf651c.png)
+![image](https://user-images.githubusercontent.com/109067893/194272161-ef4e24ed-aaac-4d4f-9356-b41e6fb8b3d5.png)
+![image](https://user-images.githubusercontent.com/109067893/194272406-7b0f532f-4b69-4c3a-90a1-0fe076d4e807.png)
+![image](https://user-images.githubusercontent.com/109067893/194272497-04644dc5-6eae-4a4c-b2df-8e52bcc0b7d9.png)
 
 
