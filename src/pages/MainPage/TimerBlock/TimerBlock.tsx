@@ -21,7 +21,7 @@ import {
   updateSetTimeForBreak,
   updateSetTimeForTomato,
 } from '../../../store/todo/todoSlice';
-import { ActionBtn, EBtnType } from '../../../components/common/ActionBtn';
+import { ActionBtn, EBtnType } from '../../../components/common/Btn';
 import { EIcons, Icon } from '../../../components/common/Icon';
 import {
   EColor,

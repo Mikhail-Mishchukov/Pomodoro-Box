@@ -1,10 +1,7 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useAppDispatch } from '../../../../../store/hooks';
 import { updateNameTodo } from '../../../../../store/todo/todoSlice';
-import {
-  ActionBtn,
-  EBtnType,
-} from '../../../../../components/common/ActionBtn';
+import { ActionBtn, EBtnType } from '../../../../../components/common/Btn';
 import { TextComponent } from '../../../../../components/common/TextComponent';
 import { animated, useSpring } from 'react-spring';
 import styles from './EditTextForm.module.css';

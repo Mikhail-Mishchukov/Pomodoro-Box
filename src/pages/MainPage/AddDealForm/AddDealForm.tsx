@@ -8,7 +8,7 @@ import {
 } from '../../../store/addTaskForm/addTaskForm';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createTodo } from '../../../store/todo/todoSlice';
-import { ActionBtn, EBtnType } from '../../../components/common/ActionBtn';
+import { ActionBtn, EBtnType } from '../../../components/common/Btn';
 import {
   EColor,
   TextComponent,

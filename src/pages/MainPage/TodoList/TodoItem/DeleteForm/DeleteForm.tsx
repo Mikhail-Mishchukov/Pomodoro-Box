@@ -2,10 +2,7 @@ import { FormEvent } from 'react';
 import { useAppDispatch } from '../../../../../store/hooks';
 
 import { setWillTodoDelete } from '../../../../../store/todo/todoSlice';
-import {
-  ActionBtn,
-  EBtnType,
-} from '../../../../../components/common/ActionBtn';
+import { ActionBtn, EBtnType } from '../../../../../components/common/Btn';
 import { TextComponent } from '../../../../../components/common/TextComponent';
 import styles from './DeleteForm.module.css';
 

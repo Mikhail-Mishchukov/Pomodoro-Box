@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ActionBtn.module.css';
+import styles from './Btn.module.css';
 import classNames from 'classnames';
 
 export enum EBtnType {
