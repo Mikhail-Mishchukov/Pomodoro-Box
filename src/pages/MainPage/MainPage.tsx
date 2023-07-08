@@ -1,47 +1,49 @@
-import '../../global.css';
-import { Header } from '../../components/layout/Header';
-import { TextComponent } from '../../components/common/TextComponent';
-import { AddDealForm } from './AddDealForm';
-import styles from './MainPage.module.css';
-import { TimerBlock } from './TimerBlock';
-import { TodoList } from './TodoList';
-import { nanoid } from 'nanoid';
+import { PageHeader } from "../../components/PageHeader";
+import { TextComponent } from "../../components/TextComponent";
+import "../../global.css";
+import classes from "./MainPage.module.css";
+import { useState } from "react";
+import { nanoid } from "nanoid";
+import { AddDealForm } from "./AddTodoForm";
+import { TimerBlock } from "./TimerBlock";
+import { TodoList } from "./TodoList";
+
 export function MainPage() {
-  const infoMenu = [
-    'Выберите категорию и напишите название текущей задачи',
-    'Запустите таймер («помидор»)',
-    'Работайте пока «помидор» не прозвонит',
-    'Сделайте короткий перерыв (3-5 минут)',
-    'Продолжайте работать «помидор» за «помидором», пока задача не будут выполнена. Каждые 4 «помидора» делайте длинный перерыв (15-30 минут).',
-  ];
+  const [infoMenu] = useState([
+    "Выберите категорию и напишите название текущей задачи",
+    "Запустите таймер («помидор»)",
+    "Работайте пока «помидор» не прозвонит",
+    "Сделайте короткий перерыв (3-5 минут)",
+    "Продолжайте работать «помидор» за «помидором», пока задача не будут выполнена. Каждые 4 «помидора» делайте длинный перерыв (15-30 минут).",
+  ]);
 
   return (
     <>
-      <Header></Header>
-      <main className={styles.main}>
+      <PageHeader />
+      <main className={classes.main}>
         <div className="container">
-          <div className={styles.contentContainer}>
-            <div className={styles.infoBlock}>
+          <div className={classes.contentContainer}>
+            <div className={classes.infoBlock}>
               <TextComponent
                 size={24}
-                children={'Ура! Теперь можно начать работать:'}
-                As={'h2'}
-                addClass={styles.infoBlock__title}
+                children={"Ура! Теперь можно начать работать:"}
+                As={"h2"}
+                addClass={classes.infoBlockTitle}
               />
-              <ul className={styles.infoBlock__list}>
+              <ul className={classes.infoBlockList}>
                 {infoMenu.map((item) => {
                   return (
-                    <li className={styles.infoBlock__item} key={nanoid()}>
+                    <li className={classes.infoBlock__item} key={nanoid()}>
                       <TextComponent size={16} children={item} />
                     </li>
                   );
                 })}
               </ul>
             </div>
-            <div className={styles.form}>
+            <div className={classes.form}>
               <AddDealForm />
             </div>
-            <div className={styles.viewTimerContainer}>
+            <div className={classes.viewTimerContainer}>
               <TimerBlock />
             </div>
             <TodoList />

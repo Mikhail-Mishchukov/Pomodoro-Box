@@ -1,17 +1,17 @@
-@import '../../global.css';
+@import "../../global.css";
 .main {
   padding: 100px 0 300px 0;
 }
-.infoBlock__title {
+.infoBlockTitle {
   font-weight: 700;
   margin-bottom: 10px;
 }
-.infoBlock__item {
+.infoBlockItem {
   position: relative;
   padding-left: 23px;
 }
-.infoBlock__item::before {
-  content: '';
+.infoBlockItem::before {
+  content: "";
   position: absolute;
   top: 6px;
   left: 0;
@@ -20,13 +20,13 @@
   border-radius: 50%;
   background-color: var(--dark-red);
 }
-.infoBlock__item:not(:last-child) {
+.infoBlockItem:not(:last-child) {
   margin-bottom: 15px;
 }
 .contentContainer {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
-  grid-template-areas: 'info timer' 'form timer' 'todo -';
+  grid-template-areas: "info timer" "form timer" "todo -";
   gap: 16px;
 }
 .infoBlock {

@@ -1,25 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from '../../../../store/hooks';
-import { useSpring, animated } from 'react-spring';
+import { useEffect, useRef, useState } from "react";
+import { useSpring, animated } from "react-spring";
+import styles from "./TodoItem.module.css";
+import { toast } from "react-toastify";
 import {
-  incrementCountTomato,
+  TodoItem as ITodoItem,
+  decreaseTimerBreak,
   decrementCountTomato,
   deleteTodo,
-  setTimerBreak,
-  decreaseTimerBreak,
-  setWillTodoDelete,
   doneTomato,
+  incrementCountTomato,
   setActiveTask,
-} from '../../../../store/todo/todoSlice';
-import { EIcons, Icon } from '../../../../components/common/Icon';
-import { Modal } from '../../../../components/common/Modal';
-import {
-  EColor,
-  TextComponent,
-} from '../../../../components/common/TextComponent';
-import { DeleteForm } from './DeleteForm';
-import { EditTextForm } from './EditTextForm';
-import styles from './TodoItem.module.css';
+  setTimerBreak,
+  setWillTodoDelete,
+  updateTodoCountBreak,
+} from "../../../../store/todoSlice";
+import { useAppDispatch } from "../../../../store/store";
 import {
   setIsNotificationActive,
   setIsTaskBreakActive,
@@ -32,25 +27,27 @@ import {
   setTimerId,
   stopTimer,
   updateCount,
-  updateCountBreak,
   updateName,
   updateSetBigBreak,
   updateSetBreak,
   updateSetTime,
   updateTime,
-} from '../../../../store/timerBlock/timerBlockSlice';
-import { ITodoItem } from '../../../../store/todo/todoSlice';
-import { incrimentTomatoCounter } from '../../../../store/static/staticSlice';
-import { toast } from 'react-toastify';
-const soundNotice = require('../../../../assets/sound/notification.mp3');
+} from "../../../../store/timerBlockSlice";
+import { incrementTomatoCounter } from "../../../../store/staticSlice";
+import { TextColor, TextComponent } from "../../../../components/TextComponent";
+import { Icon, IconsType } from "../../../../components/Icons";
+import { Modal } from "../../../../components/Modal";
+import { EditTextForm } from "./EditTextForm/EditTextForm";
+import { DeleteForm } from "./DeleteForm";
+const soundNotice = require("../../../../assets/sound/notification.mp3");
 
-interface ITodoItemComp {
+interface TodoItemProp {
   todo: ITodoItem;
   isActive: boolean;
   notifications: boolean;
 }
 
-export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
+export function TodoItem({ todo, isActive, notifications }: TodoItemProp) {
   const {
     id,
     name,
@@ -61,10 +58,9 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
     currentTimeForTomato,
     currentTimeForBreak,
     willDelete,
-    setCountBreak,
-    setTimeForBigBreak,
-    setTimeForBreak,
-    setTimeForTomato,
+    timeForBigBreak,
+    timeForBreak,
+    timeForTomato,
   } = todo;
 
   const dispatch = useAppDispatch();
@@ -109,13 +105,12 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
         dispatch(setIsTimerBreakOnPause(false));
         dispatch(setIsTimerBreakActive(false));
         dispatch(setIsTaskBreakActive(false));
-        dispatch(setIsTimerBreakActive(false));
         dispatch(setActiveTask(false));
         if (allTomato === currentTomato) {
           dispatch(setWillTodoDelete(id));
-          dispatch(incrimentTomatoCounter());
+          dispatch(incrementTomatoCounter());
         } else {
-          dispatch(incrimentTomatoCounter());
+          dispatch(incrementTomatoCounter());
           dispatch(doneTomato(id));
         }
         if (notifications) {
@@ -130,28 +125,31 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
 
   useEffect(() => {
     dispatch(updateName({ id: id, name: name }));
-  }, [name]);
+  }, [dispatch, id, name]);
+
   useEffect(() => {
-    dispatch(updateCountBreak({ id: id, count: setCountBreak }));
-  }, [setCountBreak]);
+    dispatch(updateTodoCountBreak({ id: id, count: countBreak }));
+  }, [countBreak, dispatch, id]);
 
   useEffect(() => {
     dispatch(setIsNotificationActive(notifications));
-  }, [notifications]);
+  }, [dispatch, notifications]);
 
   useEffect(() => {
     dispatch(updateCount({ id: id, count: currentTomato }));
-  }, [currentTomato]);
+  }, [currentTomato, dispatch, id]);
 
   useEffect(() => {
-    dispatch(updateSetBigBreak({ id: id, time: setTimeForBigBreak }));
-  }, [setTimeForBigBreak]);
+    dispatch(updateSetBigBreak({ id: id, time: timeForBigBreak }));
+  }, [dispatch, id, timeForBigBreak]);
+
   useEffect(() => {
-    dispatch(updateSetBreak({ id: id, time: setTimeForBreak }));
-  }, [setTimeForBreak]);
+    dispatch(updateSetBreak({ id: id, time: timeForBreak }));
+  }, [dispatch, id, timeForBreak]);
+
   useEffect(() => {
-    dispatch(updateSetTime({ id: id, time: setTimeForTomato }));
-  }, [setTimeForTomato]);
+    dispatch(updateSetTime({ id: id, time: timeForTomato }));
+  }, [dispatch, id, timeForTomato]);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -172,9 +170,9 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
         dispatch(setActiveTask(false));
         dispatch(
           setTimer({
-            todoID: '',
+            todoID: "",
             time: 0,
-            name: '',
+            name: "",
             numberTask: 0,
             numberTomato: 0,
             numberBreak: 0,
@@ -185,11 +183,11 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
             isTimerBreakActive: false,
             isTaskBreakActive: false,
             isTimerBreakOnPause: false,
-            isNotoficationsActive: notifications,
-            countBreak: setCountBreak,
-            setBigBreak: setTimeForBigBreak,
-            setBreak: setTimeForBreak,
-            setTime: setTimeForTomato,
+            isNotificationsActive: notifications,
+            countBreak: countBreak,
+            setBigBreak: timeForBigBreak,
+            setBreak: timeForBreak,
+            setTime: timeForTomato,
           })
         );
       }
@@ -201,18 +199,18 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
       if (event.target instanceof Node && !ref.current?.contains(event.target))
         setIsDropdownOpen(false);
     }
-    document.addEventListener('click', handleClick);
+    document.addEventListener("click", handleClick);
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener("click", handleClick);
     };
   }, []);
 
-  const handlClickButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const handClickIncrementCount = (
+  const onClickIncrementCount = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
@@ -220,7 +218,7 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
     dispatch(incrementCountTomato(id));
     setIsDropdownOpen(false);
   };
-  const handClickDecrementCount = (
+  const onClickDecrementCount = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
@@ -228,7 +226,7 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
     dispatch(decrementCountTomato(id));
     setIsDropdownOpen(false);
   };
-  const handClickChooseTodo = () => {
+  const onClickChooseTodo = () => {
     if (!isActive) {
       if (currentTimeForTomato !== 0) {
         dispatch(
@@ -246,11 +244,11 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
             isTimerBreakActive: false,
             isTaskBreakActive: false,
             isTimerBreakOnPause: false,
-            isNotoficationsActive: notifications,
-            countBreak: setCountBreak,
-            setBigBreak: setTimeForBigBreak,
-            setBreak: setTimeForBreak,
-            setTime: setTimeForTomato,
+            isNotificationsActive: notifications,
+            countBreak: countBreak,
+            setBigBreak: timeForBigBreak,
+            setBreak: timeForBreak,
+            setTime: timeForTomato,
           })
         );
       } else {
@@ -269,11 +267,11 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
             isTimerBreakActive: false,
             isTaskBreakActive: true,
             isTimerBreakOnPause: true,
-            isNotoficationsActive: notifications,
-            countBreak: setCountBreak,
-            setBigBreak: setTimeForBigBreak,
-            setBreak: setTimeForBreak,
-            setTime: setTimeForTomato,
+            isNotificationsActive: notifications,
+            countBreak: countBreak,
+            setBigBreak: timeForBigBreak,
+            setBreak: timeForBreak,
+            setTime: timeForTomato,
           })
         );
         dispatch(setActiveTask(true));
@@ -285,13 +283,13 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
       <animated.li
         style={animatedProps}
         className={styles.item}
-        onClick={handClickChooseTodo}
+        onClick={onClickChooseTodo}
       >
         <span className={styles.counter}>{allTomato}</span>
         <TextComponent children={name} size={16} />
         <div className={styles.dropdownContainer} ref={ref}>
-          <button onClick={handlClickButton}>
-            <Icon name={EIcons.menu} widthSize={26} heightSize={6} />
+          <button onClick={onClickButton}>
+            <Icon name={IconsType.menu} width={26} height={6} />
           </button>
           {isDropdownOpen && (
             <ul
@@ -300,19 +298,19 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
             >
               <li className={styles.dropdownItem}>
                 <button
-                  onClick={handClickIncrementCount}
+                  onClick={onClickIncrementCount}
                   className={styles.dropdownBtn}
                 >
                   <Icon
-                    widthSize={15}
-                    heightSize={15}
+                    width={15}
+                    height={15}
                     marginRight={9}
-                    name={EIcons.smallPlus}
+                    name={IconsType.smallPlus}
                   />
                   <TextComponent
-                    children={'Увеличить'}
+                    children={"Увеличить"}
                     size={16}
-                    color={EColor.gray99}
+                    color={TextColor.gray99}
                   />
                 </button>
               </li>
@@ -320,18 +318,18 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
                 <button
                   disabled={allTomato <= 1 || allTomato === currentTomato}
                   className={styles.dropdownBtn}
-                  onClick={handClickDecrementCount}
+                  onClick={onClickDecrementCount}
                 >
                   <Icon
-                    widthSize={15}
-                    heightSize={15}
+                    width={15}
+                    height={15}
                     marginRight={9}
-                    name={EIcons.minus}
+                    name={IconsType.minus}
                   />
                   <TextComponent
-                    children={'Уменьшить'}
+                    children={"Уменьшить"}
                     size={16}
-                    color={EColor.gray99}
+                    color={TextColor.gray99}
                   />
                 </button>
               </li>
@@ -346,15 +344,15 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
                   className={styles.dropdownBtn}
                 >
                   <Icon
-                    widthSize={15}
-                    heightSize={15}
+                    width={15}
+                    height={15}
                     marginRight={9}
-                    name={EIcons.pen}
+                    name={IconsType.pen}
                   />
                   <TextComponent
-                    children={'Редактировать'}
+                    children={"Редактировать"}
                     size={16}
-                    color={EColor.gray99}
+                    color={TextColor.gray99}
                   />
                 </button>
               </li>
@@ -369,15 +367,15 @@ export function TodoItem({ todo, isActive, notifications }: ITodoItemComp) {
                   }}
                 >
                   <Icon
-                    widthSize={15}
-                    heightSize={15}
+                    width={15}
+                    height={15}
                     marginRight={9}
-                    name={EIcons.trashcan}
+                    name={IconsType.trashcan}
                   />
                   <TextComponent
-                    children={'Удалить'}
+                    children={"Удалить"}
                     size={16}
-                    color={EColor.gray99}
+                    color={TextColor.gray99}
                   />
                 </button>
               </li>

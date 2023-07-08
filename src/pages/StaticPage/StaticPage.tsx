@@ -1,11 +1,11 @@
-import { Header } from '../../components/layout/Header';
-import { Activity } from './Activity';
+// import { Header } from '../../components/layout/Header';
+// import { Activity } from './Activity';
 
-export function StaticPage() {
-  return (
-    <>
-      <Header />
-      <Activity />
-    </>
-  );
-}
+// export function StaticPage() {
+//   return (
+//     <>
+//       <Header />
+//       <Activity />
+//     </>
+//   );
+// }

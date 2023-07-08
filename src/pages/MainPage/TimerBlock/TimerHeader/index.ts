@@ -1,1 +1,1 @@
-export * from './TimerHeader';
+export * from "./TimerHeader";

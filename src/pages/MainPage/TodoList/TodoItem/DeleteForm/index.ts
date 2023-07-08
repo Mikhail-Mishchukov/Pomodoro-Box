@@ -1,1 +1,1 @@
-export * from './DeleteForm';
+export * from "./DeleteForm";

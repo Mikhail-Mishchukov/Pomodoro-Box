@@ -1,0 +1,38 @@
+@import "../../global.css";
+.btnRed {
+  background-color: var(--red);
+  color: var(--white);
+  transition: background-color 0.15s ease-in-out;
+}
+.btnRed:hover {
+  background-color: var(--redEE);
+}
+.btnGreen {
+  background-color: var(--green);
+  color: var(--white);
+  transition: background-color 0.15s ease-in-out;
+}
+.btnGreen:hover {
+  background-color: var(--green89);
+}
+
+.btnRedBorder {
+  background-color: transparent;
+  border: 2px solid var(--red);
+  transition-property: background-color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.15s;
+}
+.btnRedBorder:hover {
+  background-color: var(--red);
+}
+.btnRedBorder:disabled {
+  cursor: auto;
+  background-color: transparent !important;
+}
+.btnRedBorder span {
+  transition: color 0.15s ease-in-out;
+}
+.btnRedBorder:hover span {
+  color: white;
+}

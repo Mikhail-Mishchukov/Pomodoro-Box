@@ -1,4 +1,4 @@
-@import '../../../../global.css';
+@import "../../../../global.css";
 .item {
   max-width: 370px;
   display: grid;
@@ -16,7 +16,7 @@
   padding-left: 9px;
 }
 .counter::after {
-  content: '';
+  content: "";
   top: -5px;
   left: 0;
   position: absolute;
@@ -40,7 +40,7 @@
 }
 .dropdownList::before {
   position: absolute;
-  content: '';
+  content: "";
   top: -6px;
   left: 45%;
   width: 10px;

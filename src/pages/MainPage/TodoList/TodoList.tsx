@@ -1,26 +1,20 @@
-import { useAppSelector } from '../../../store/hooks';
-import styles from './TodoList.module.css';
-import { TodoItem } from './TodoItem';
-import {
-  EColor,
-  TextComponent,
-} from '../../../components/common/TextComponent';
-import { useSpring, animated } from 'react-spring';
-import { useEffect, useState } from 'react';
+import styles from "./TodoList.module.css";
+import { useSpring, animated } from "react-spring";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../../store/store";
+import { TextColor, TextComponent } from "../../../components/TextComponent";
+import { getFullTodoTime } from "../../../utils/timeUtils";
+import { TodoItem } from "./TodoItem";
 
 export function TodoList() {
   const todos = useAppSelector((state) => state.todos.list);
   const allTime = useAppSelector((state) => state.todos.allTime);
-  const isActive = useAppSelector((state) => state.todos.isActiveTimer);
-  const needNotifications = useAppSelector((state) => state.app.notifications);
+  const isActive = useAppSelector((state) => state.todos.isTimerActive);
+  const needNotifications = useAppSelector(
+    (state) => state.globalSettings.notifications
+  );
 
   const [currentAllTime, setCurrentAllTime] = useState(allTime);
-
-  useEffect(() => {
-    if (Math.abs(currentAllTime - allTime) > 59) {
-      setCurrentAllTime(allTime);
-    }
-  }, [allTime]);
 
   const animatedProps = useSpring({
     to: { opacity: 1 },
@@ -35,32 +29,11 @@ export function TodoList() {
         : false,
   });
 
-  function getFullTodoTime(time: number) {
-    let timeString: string = '';
-
-    if (time > 59) {
-      timeString = hoursAndMinutes(time);
+  useEffect(() => {
+    if (Math.abs(currentAllTime - allTime) > 59) {
+      setCurrentAllTime(allTime);
     }
-    return timeString;
-  }
-  function hoursAndMinutes(time: number) {
-    time = Math.floor(time / 60);
-    const m = time % 60;
-    const h = Math.floor(time / 60);
-    let hoursStr: string = '';
-
-    if (h % 10 === 1 && h !== 11) {
-      hoursStr = `${h} час`;
-    } else if (h % 10 > 1 && h % 10 < 5 && (h > 20 || h < 10)) {
-      hoursStr = `${h} часа`;
-    } else if (h === 0) {
-      hoursStr = '';
-    } else {
-      hoursStr = `${h} часов`;
-    }
-    return hoursStr.concat(` ${m} мин`);
-  }
-
+  }, [allTime, currentAllTime]);
   return (
     <div className={styles.listContainer}>
       <ul className={styles.list}>
@@ -77,7 +50,7 @@ export function TodoList() {
         <TextComponent
           children={`${getFullTodoTime(currentAllTime)}`}
           size={16}
-          color={EColor.gray99}
+          color={TextColor.gray99}
         />
       </animated.span>
     </div>

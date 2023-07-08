@@ -1,1 +1,1 @@
-export * from './TimerDisplay';
+export * from "./TimerDisplay";

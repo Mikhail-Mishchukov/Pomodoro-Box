@@ -1,20 +1,20 @@
-import { FormEvent, useRef, useState } from 'react';
-import { useAppDispatch } from '../../../../../store/hooks';
-import { updateNameTodo } from '../../../../../store/todo/todoSlice';
-import { ActionBtn, EBtnType } from '../../../../../components/common/Btn';
-import { TextComponent } from '../../../../../components/common/TextComponent';
-import { animated, useSpring } from 'react-spring';
-import styles from './EditTextForm.module.css';
+import { FormEvent, useRef, useState } from "react";
+import { animated, useSpring } from "react-spring";
+import styles from "./EditTextForm.module.css";
+import { useAppDispatch } from "../../../../../store/store";
+import { updateNameTodo } from "../../../../../store/todoSlice";
+import { TextComponent } from "../../../../../components/TextComponent";
+import { Button, ButtonType } from "../../../../../components/Button";
 
-interface IEditTextFormProps {
+interface EditTextFormProps {
   onClose: () => void;
   id: string;
   text: string;
 }
 
-export function EditTextForm({ id, text, onClose }: IEditTextFormProps) {
+export function EditTextForm({ id, text, onClose }: EditTextFormProps) {
   const [textTask, setText] = useState(text);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [willDelete, setWillDelete] = useState(false);
 
   const ref = useRef<HTMLInputElement>(null);
@@ -29,29 +29,29 @@ export function EditTextForm({ id, text, onClose }: IEditTextFormProps) {
     reverse: willDelete,
     onRest: () => {
       if (willDelete) {
-        setError('');
+        setError("");
         setWillDelete(false);
       }
     },
   });
 
-  const handlSubmit = (e: FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (ref.current?.value.trim().length) {
       dispatch(updateNameTodo({ id, name: ref.current?.value }));
       onClose();
       return;
     }
-    setError('Поле обязательно для заполенния');
+    setError("Поле обязательно для заполенния");
     ref.current?.focus();
   };
 
   return (
-    <form className={styles.form} onSubmit={handlSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <TextComponent
-        children={'Измените название задачи'}
+        children={"Измените название задачи"}
         size={24}
-        As={'h3'}
+        As={"h3"}
         addClass={styles.title}
       />
       {error && (
@@ -72,13 +72,13 @@ export function EditTextForm({ id, text, onClose }: IEditTextFormProps) {
           }
         }}
       />
-      <ActionBtn
-        children={'Принять'}
-        type={EBtnType.green}
+      <Button
+        children={"Принять"}
+        type={ButtonType.green}
         addClass={styles.btnAccept}
       />
       <button type="button" className={styles.btnCancel} onClick={onClose}>
-        <TextComponent children={'Отмена'} size={16} />
+        <TextComponent children={"Отмена"} size={16} />
       </button>
     </form>
   );

@@ -1,1 +1,2 @@
-export * from './StaticPage';
+// export * from './StaticPage';
+//

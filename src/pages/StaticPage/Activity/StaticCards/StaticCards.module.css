@@ -1,4 +1,4 @@
-.infoCardContainer {
+/* .infoCardContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 32px;
@@ -44,4 +44,4 @@
 .cardData {
   position: relative;
   z-index: 1;
-}
+} */
